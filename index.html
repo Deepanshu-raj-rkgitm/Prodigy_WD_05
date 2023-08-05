@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Deepanshu Raj</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrapper">
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter The City Name " spellcheck="false">
+            <button><img src="images/images/search.png"></button>
+            <div class="weather">
+                <img src="images/images/rain.png" class="weather-icon">
+                <h1 class="temp">22°C</h1>
+                <h2 class="city">New York</h2>
+                <div class="details">
+                    <div class="col">
+                        <img src="images/images/humidity.png">
+                        <div>
+                            <p class="humidity">50%</p>
+                            <p>Humidity</p>
+                            
+                        </div>
+                    </div>
+                    <div class="col">
+                        <img src="images/images/wind.png">
+                        <div>
+                            <p class="wind">15kmph</p>
+                            <p>Wind Speed</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const apiKey = "899a0c1c22f06a71e67d2b600c32d4ce";
+    const apiURL =  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+    const searchBox = document.querySelector(".search input");
+    const searchBtn = document.querySelector(".search button");
+    const weatherIcon = document.querySelector(".weather-icon")
+    async function checkWeather(city){
+        const response = await fetch(apiURL + city + `&appid=${apiKey}`);
+        var data = await response.json();
+        
+        document.querySelector(".city").innerHTML = data.name
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.wind.speed + "Km/h";
+
+        if(data.weather[0].main == "Cloudes"){
+         weatherIcon.src = "images/images/clouds.png";
+        }
+        else if(data.weather[0].main == "Clear"){
+         weatherIcon.src = "images/images/clear.png";
+        }
+        else if(data.weather[0].main == "Rain"){
+         weatherIcon.src = "images/images/rain.png";
+        }
+        else if(data.weather[0].main == "Drizzle"){
+         weatherIcon.src = "images/images/drizzle.png";
+        }
+        else if(data.weather[0].main == "Mist"){
+         weatherIcon.src = "images/images/mist.png";
+        }
+        document.querySelector(".weather").style.display ="block"
+    }    
+
+searchBtn.addEventListener("click",()=>{
+    checkWeather(searchBox.value);
+
+})
+
+
+
+    
+</script>
+<img src="vecteezy_earth-globe-clip-art-vector-illustration-isolated_9314440_466.png" alt="Earth" class="earth">
+
+</body>  
+</html>
